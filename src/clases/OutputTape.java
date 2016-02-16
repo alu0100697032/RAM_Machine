@@ -27,8 +27,10 @@ public class OutputTape {
 		this.elements.add(element);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public ArrayList<Integer> getTape(){
-		return (ArrayList<Integer>) elements.clone();
+	public String getTapeContent(){
+		String content = "";
+		for(int i = 0; i < elements.size(); i++)
+			content += elements.get(i) + " ";
+		return content;
 	}
 }
