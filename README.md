@@ -33,6 +33,6 @@ usuario lo desea
   * Realizar una ejecución completa de todo el programa o una traza de la
 ejecución mostrando en cada instrucción el contenido de los registros
 utilizados
-* * Ver la cinta de salida al finalizar la ejecución, si el usuario lo desea
+* Ver la cinta de salida al finalizar la ejecución, si el usuario lo desea
 * El simulador deberá funcionar con los ejemplos de test que se proporcionan en el
 aula virtual.
