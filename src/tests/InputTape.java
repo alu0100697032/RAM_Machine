@@ -9,16 +9,19 @@ import java.util.ArrayList;
 
 public class InputTape {
 	/**
-	 * Atributos
+	 * Atributes
 	 */
 	private ArrayList<Integer> elements;
-
+	
+	/**
+	 * Constructor: InputTape
+	 */
 	public InputTape(ArrayList<Integer> elements) {
 		setElements(elements);
 	}
 	
 	/**
-	 * @return the elementosCinta
+	 * getElement
 	 */
 	public int getElement(int position) {
 		return elements.get(position);
