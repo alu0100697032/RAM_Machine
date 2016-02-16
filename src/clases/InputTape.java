@@ -3,7 +3,7 @@
  * Package name: tests
  * Proyect name: daa_ramMachine
  */
-package tests;
+package clases;
 
 import java.util.ArrayList;
 
