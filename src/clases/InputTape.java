@@ -21,6 +21,15 @@ public class InputTape {
 	}
 	
 	/**
+	 * showTape
+	 */
+	public void showTape() {
+		System.out.println("Cinta de entrada: ");
+		for(int i = 0; i < elements.size(); i++)
+			System.out.print(elements.get(i) + " ");
+		System.out.println();
+	}
+	/**
 	 * getElement
 	 */
 	public int getElement(int position) {
