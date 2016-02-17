@@ -30,12 +30,18 @@ public class InputTape {
 		System.out.println();
 	}
 	/**
+	 * getSize
+	 */
+	public int getSize() {
+		return elements.size();
+	}
+	/**
 	 * getElement
 	 */
 	public int getElement(int position) {
 		return elements.get(position);
 	}
-
+	
 	/**
 	 * @param elementosCinta the elementosCinta to set
 	 */
