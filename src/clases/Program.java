@@ -21,7 +21,7 @@ public class Program {
 		setInstructions(instructions);
 		setLabelIndexes(labelIndexs);
 		setLabels(labels);
-		setActualInstruction(0);
+		setCurrentInstruction(0);
 	}
 	/**
 	 * showProgram
@@ -54,33 +54,31 @@ public class Program {
 	/**
 	 * @return the actualInstruction
 	 */
-	public int getActualInstruction() {
-		return currentInstruction;
+	public int getCurrentInstruction() {
+		int aux = currentInstruction;
+		return aux;
 	}
-
+	
+	public void incrementCurrentInstruction(){
+		currentInstruction++;
+	}
 	/**
 	 * @param actualInstruction the actualInstruction to set
 	 */
-	public void setActualInstruction(int actualInstruction) {
-		this.currentInstruction = actualInstruction;
+	public void setCurrentInstruction(int currentInstruction) {
+		this.currentInstruction = currentInstruction;
 	}
 	/**
 	 * @return the labelIndexs
 	 */
-	public Hashtable<String, Integer> getLabelIndexes() {
-		return labelIndexes;
+	public int getLabelIndex(String key) {
+		return labelIndexes.get(key);
 	}
 	/**
 	 * @param labelIndexs the labelIndexs to set
 	 */
 	public void setLabelIndexes(Hashtable<String, Integer> labelIndexes) {
 		this.labelIndexes = labelIndexes;
-	}
-	/**
-	 * @return the labels
-	 */
-	public ArrayList<String> getLabels() {
-		return labels;
 	}
 	/**
 	 * @param labels the labels to set

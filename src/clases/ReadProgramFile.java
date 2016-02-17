@@ -189,21 +189,9 @@ public class ReadProgramFile {
 		return labelIndexes;
 	}
 	/**
-	 * @param labelIndexs the labelIndexs to set
-	 */
-	public void setLabelIndexes(Hashtable<String, Integer> labelIndexes) {
-		this.labelIndexes = labelIndexes;
-	}
-	/**
 	 * @return the labels
 	 */
 	public ArrayList<String> getLabels() {
 		return labels;
-	}
-	/**
-	 * @param labels the labels to set
-	 */
-	public void setLabels(ArrayList<String> labels) {
-		this.labels = labels;
 	}
 }
