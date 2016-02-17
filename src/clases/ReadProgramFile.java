@@ -92,9 +92,9 @@ public class ReadProgramFile {
 		String[] splitText = text.split(" ");
 		if(checkValidInstruction(splitText[0])) {
 			if(splitText.length > 1)
-				checkInstructionType(splitText[0], splitText[1]);
+				checkAddressingMode(splitText[0], splitText[1]);
 			else
-				checkInstructionType(splitText[0], "");
+				checkAddressingMode(splitText[0], "");
 			currentInstruction++;
 		}else
 			System.out.println("Error. Invalid instruction");
@@ -102,7 +102,7 @@ public class ReadProgramFile {
 	/**
 	 * checkAddressing
 	 */
-	public void checkInstructionType (String name, String address) {
+	public void checkAddressingMode (String name, String address) {
 		int addressingMode = 0;
 		if(!address.startsWith("=") || !address.startsWith("*") || !address.startsWith("1") 
 				|| !address.startsWith("2") || !address.startsWith("3") || !address.startsWith("4") 
