@@ -104,10 +104,12 @@ public class ReadProgramFile {
 	 */
 	public void checkAddressingMode (String name, String address) {
 		int addressingMode = 0;
-		if(!address.startsWith("=") || !address.startsWith("*") || !address.startsWith("1") 
-				|| !address.startsWith("2") || !address.startsWith("3") || !address.startsWith("4") 
-				|| !address.startsWith("5") || !address.startsWith("6") || !address.startsWith("7") 
-				|| !address.startsWith("8") || !address.startsWith("9")) {
+		if(address.length() == 0) {
+			program.add(new SequentialInstruction(name, 0, addressingMode));
+		}else if(address.charAt(0) != '=' && address.charAt(0) != '*' && address.charAt(0) != '1'
+				&& address.charAt(0) != '2' && address.charAt(0) != '3' && address.charAt(0) != '4'
+				&& address.charAt(0) != '5' && address.charAt(0) != '6' && address.charAt(0) != '7' 
+				&& address.charAt(0) != '8' && address.charAt(0) != '9') {
 			program.add(new JumpInstruction(name, address, Globals.JUMP_ADDRESSING));
 		}else {
 			if(address.startsWith("=")) {
