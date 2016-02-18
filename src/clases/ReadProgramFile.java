@@ -90,14 +90,11 @@ public class ReadProgramFile {
 	 */
 	public void parseInstruction(String text) {
 		String[] splitText = text.split(" ");
-		if(checkValidInstruction(splitText[0])) {
-			if(splitText.length > 1)
-				checkAddressingMode(splitText[0], splitText[1]);
-			else
-				checkAddressingMode(splitText[0], "");
-			currentInstruction++;
-		}else
-			System.out.println("Error. Invalid instruction");
+		if(splitText.length > 1)
+			checkAddressingMode(splitText[0], splitText[1]);
+		else
+			checkAddressingMode(splitText[0], "");
+		currentInstruction++;
 	}
 	/**
 	 * checkAddressing
@@ -109,7 +106,7 @@ public class ReadProgramFile {
 		}else if(address.charAt(0) != '=' && address.charAt(0) != '*' && address.charAt(0) != '1'
 				&& address.charAt(0) != '2' && address.charAt(0) != '3' && address.charAt(0) != '4'
 				&& address.charAt(0) != '5' && address.charAt(0) != '6' && address.charAt(0) != '7' 
-				&& address.charAt(0) != '8' && address.charAt(0) != '9') {
+				&& address.charAt(0) != '8' && address.charAt(0) != '9' && address.charAt(0) != ' ') {
 			program.add(new JumpInstruction(name, address, Globals.JUMP_ADDRESSING));
 		}else {
 			if(address.startsWith("=")) {

@@ -28,10 +28,10 @@ public class Program {
 		int labelIndex = 0;
 		for(int i = 0; i < instructions.size(); i++) {
 			if(labelIndexes.contains(i)) {
-				System.out.println(labels.get(labelIndex) + ":\t" + instructions.get(i).instructionToString());
+				System.out.println("Line " + (i+1) + ": " + labels.get(labelIndex) + ":\t" + instructions.get(i).instructionToString());
 				labelIndex++;
 			}else {
-				System.out.println("\t" + instructions.get(i).instructionToString());
+				System.out.println("Line " + (i+1) + ": " + "\t" + instructions.get(i).instructionToString());
 			}
 		}
 	}
@@ -55,6 +55,15 @@ public class Program {
 	 */
 	public int getLabelIndex(String key) {
 		return labelIndexes.get(key);
+	}
+	/**
+	 * checkExistLabel
+	 */
+	public boolean checkExistLabel(String key) {
+		if(labelIndexes.containsKey(key))
+			return true;
+		else 
+			return false;
 	}
 	/**
 	 * @param labelIndexs the labelIndexs to set

@@ -17,11 +17,14 @@ public class Processor {
 	private Program program;
 	private int currentInstructionIndex;
 	private boolean stateHalt;
+	private WriteOutputFile writeOutputFile;
+	private String outputFileName;
 	
 	/**
 	 * Constructor: Processor
 	 */
-	public Processor() {
+	public Processor(String outputFileName) {
+		setOutputFileName(outputFileName);
 		setMemoryRegister(new MemoryRegister());
 		setOutputTape(new OutputTape());
 		setStateHalt(false);
@@ -92,7 +95,8 @@ public class Processor {
 			halt();
 			break;
 		default:
-			System.out.println("Error. Invalid instruction. Line: " + currentInstructionIndex);
+			halt();
+			System.out.println("Error! Line: " + (currentInstructionIndex + 1) + " Invalid instruction: " + currentInstruction.getName());
 			break;
 		}
 	}
@@ -102,6 +106,7 @@ public class Processor {
 	public void read(SequentialInstruction currentInstruction) {
 		switch (currentInstruction.getAddressingMode()) {
 		case Globals.IMMEDIATE_ADDRESSING:
+			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + "Invalid addressing: " + currentInstruction.getName() + " =" + currentInstruction.getAddress());
 			break;
 		case Globals.REFERENCE_ADDRESSING:
 			if(currentInstruction.getAddress() + 1 > memoryRegister.getSize())
@@ -111,7 +116,6 @@ public class Processor {
 			inputTape.incrementPointer();
 			break;
 		default:
-			System.out.println("Error. Invalid addressing. Line: " + currentInstructionIndex + ". Read instruction only handle inmediate and reference addressing.");
 			break;
 		}
 		currentInstructionIndex++;
@@ -125,6 +129,7 @@ public class Processor {
 			outputTape.addElement(currentInstruction.getAddress());
 			break;
 		case Globals.INDIRECT_ADDRESSING:
+			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + "Invalid addressing: " + currentInstruction.getName() + " *" + currentInstruction.getAddress());
 			break;
 		case Globals.REFERENCE_ADDRESSING:
 			outputTape.addElement(memoryRegister.getRegister(currentInstruction.getAddress()));
@@ -139,7 +144,11 @@ public class Processor {
 	 */
 	public void load(SequentialInstruction currentInstruction) {
 		switch (currentInstruction.getAddressingMode()) {
+		case Globals.IMMEDIATE_ADDRESSING:
+			memoryRegister.setAccumulator(currentInstruction.getAddress());
+			break;
 		case Globals.INDIRECT_ADDRESSING:
+			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + "Invalid addressing: " + currentInstruction.getName() + " *" + currentInstruction.getAddress());
 			break;
 		case Globals.REFERENCE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getRegister(currentInstruction.getAddress()));
@@ -153,7 +162,25 @@ public class Processor {
 	 * store
 	 */
 	public void store(SequentialInstruction currentInstruction) {
-			
+		switch (currentInstruction.getAddressingMode()) {
+		case Globals.IMMEDIATE_ADDRESSING:
+			halt();
+			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + " Invalid addressing: "+ currentInstruction.getName() + " =" + currentInstruction.getAddress());
+			break;
+		case Globals.INDIRECT_ADDRESSING:
+			break;
+		case Globals.REFERENCE_ADDRESSING:
+			int aux = currentInstruction.getAddress() + 1 - memoryRegister.getSize();
+			if(checkMemoryRegisterOverflow(currentInstruction.getAddress())) {
+				for(int i = 0; i < aux; i++)
+					memoryRegister.addRegister(0);
+			}
+			memoryRegister.setRegister(currentInstruction.getAddress(), memoryRegister.getAccumulator());
+			break;
+		default:
+			break;
+		}
+		currentInstructionIndex++;
 	}
 	/**
 	 * add
@@ -163,10 +190,10 @@ public class Processor {
 		case Globals.IMMEDIATE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() + currentInstruction.getAddress());
 			break;
-		case Globals.INDIRECT_ADDRESSING:
+		case Globals.REFERENCE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() + memoryRegister.getRegister(currentInstruction.getAddress()));
 			break;
-		case Globals.REFERENCE_ADDRESSING:
+		case Globals.INDIRECT_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getRegister(currentInstruction.getAddress()) + memoryRegister.getRegister(memoryRegister.getAccumulator()));//asi o al contrario?
 			break;
 		default:
@@ -182,10 +209,10 @@ public class Processor {
 		case Globals.IMMEDIATE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() - currentInstruction.getAddress());
 			break;
-		case Globals.INDIRECT_ADDRESSING:
+		case Globals.REFERENCE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() - memoryRegister.getRegister(currentInstruction.getAddress()));
 			break;
-		case Globals.REFERENCE_ADDRESSING:
+		case Globals.INDIRECT_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getRegister(currentInstruction.getAddress()) - memoryRegister.getRegister(memoryRegister.getAccumulator()));//asi o al contrario?
 			break;
 		default:
@@ -201,10 +228,10 @@ public class Processor {
 		case Globals.IMMEDIATE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() * currentInstruction.getAddress());
 			break;
-		case Globals.INDIRECT_ADDRESSING:
+		case Globals.REFERENCE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() * memoryRegister.getRegister(currentInstruction.getAddress()));
 			break;
-		case Globals.REFERENCE_ADDRESSING:
+		case Globals.INDIRECT_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getRegister(currentInstruction.getAddress()) * memoryRegister.getRegister(memoryRegister.getAccumulator()));//asi o al contrario?
 			break;
 		default:
@@ -220,10 +247,10 @@ public class Processor {
 		case Globals.IMMEDIATE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() / currentInstruction.getAddress());
 			break;
-		case Globals.INDIRECT_ADDRESSING:
+		case Globals.REFERENCE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getAccumulator() / memoryRegister.getRegister(currentInstruction.getAddress()));
 			break;
-		case Globals.REFERENCE_ADDRESSING:
+		case Globals.INDIRECT_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getRegister(currentInstruction.getAddress()) / memoryRegister.getRegister(memoryRegister.getAccumulator()));//asi o al contrario?
 			break;
 		default:
@@ -235,24 +262,39 @@ public class Processor {
 	 * jump
 	 */
 	public void jump(JumpInstruction currentInstruction) {
-		setCurrentInstructionIndex(program.getLabelIndex(currentInstruction.getLabel()));
+		if(program.checkExistLabel(currentInstruction.getLabel()))
+			setCurrentInstructionIndex(program.getLabelIndex(currentInstruction.getLabel()));
+		else {
+			halt();
+			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + " Invalid label: " + currentInstruction.getName() + " " + currentInstruction.getLabel());
+		}
 	}
 	/**
 	 * jzero
 	 */
 	public void jzero(JumpInstruction currentInstruction) {
-		if(memoryRegister.getAccumulator() == 0)
-			setCurrentInstructionIndex(program.getLabelIndex(currentInstruction.getLabel()));
-		else
+		if(memoryRegister.getAccumulator() == 0) {
+			if(program.checkExistLabel(currentInstruction.getLabel()))
+				setCurrentInstructionIndex(program.getLabelIndex(currentInstruction.getLabel()));
+			else {
+				halt();
+				System.out.println("Error. Line: " + (currentInstructionIndex + 1) + " Invalid label: " + currentInstruction.getName() + " " + currentInstruction.getLabel());
+			}
+		}else
 			currentInstructionIndex++;
 	}
 	/**
 	 * jgtz
 	 */
 	public void jgtz(JumpInstruction currentInstruction) {
-		if(memoryRegister.getAccumulator() > 0)
-			setCurrentInstructionIndex(program.getLabelIndex(currentInstruction.getLabel()));
-		else
+		if(memoryRegister.getAccumulator() > 0) {
+			if(program.checkExistLabel(currentInstruction.getLabel()))
+				setCurrentInstructionIndex(program.getLabelIndex(currentInstruction.getLabel()));
+			else {
+				halt();
+				System.out.println("Error. Line: " + (currentInstructionIndex + 1) + " Invalid label: " + currentInstruction.getName() + " " + currentInstruction.getLabel());
+			}
+		}else
 			currentInstructionIndex++;
 	}
 	/**
@@ -260,6 +302,17 @@ public class Processor {
 	 */
 	public void halt() {
 		setStateHalt(true);
+		System.out.println("Cinta de salida: " + outputTape.getTapeContent());
+		writeOutputFile = new WriteOutputFile(outputFileName, outputTape);
+	}
+	/**
+	 * checkMemoryRegisterOverflow
+	 */
+	public boolean checkMemoryRegisterOverflow(int addressDirection) {
+		if(addressDirection + 1 - memoryRegister.getSize() > 0)
+			return true;
+		else 
+			return false;
 	}
 	/**
 	 * loadProgram
@@ -317,5 +370,11 @@ public class Processor {
 	 */
 	public void setCurrentInstructionIndex(int currentInstructionIndex) {
 		this.currentInstructionIndex = currentInstructionIndex;
+	}
+	/**
+	 * @param outputFileName the outputFileName to set
+	 */
+	public void setOutputFileName(String outputFileName) {
+		this.outputFileName = outputFileName;
 	}
 }

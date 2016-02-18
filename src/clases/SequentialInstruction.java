@@ -38,12 +38,22 @@ public class SequentialInstruction extends Instruction{
 	@Override
 	public String instructionToString() {
 		// TODO Auto-generated method stub
-		String adsMode = "";
-		if(address == Globals.IMMEDIATE_ADDRESSING)
-			adsMode = "=";
-		else if(address == Globals.INDIRECT_ADDRESSING)
-			adsMode = "*";
-		return getName() + " " + adsMode + address;
+		if(getName().equals("HALT") || getName().equals("halt"))
+			return getName();
+		else {
+			String adsMode = "";
+			switch (getAddressingMode()) {
+			case Globals.IMMEDIATE_ADDRESSING:
+				adsMode = "=";
+				break;
+			case Globals.INDIRECT_ADDRESSING:
+				adsMode = "*";
+				break;
+			default:
+				break;
+			}
+			return getName() + " " + adsMode + address;
+		}
 	}
 	
 }
