@@ -20,6 +20,12 @@ public class MemoryRegister {
 		registers.add(0);
 	}
 	/**
+	 * getSize
+	 */
+	public int getSize() {
+		return registers.size();
+	}
+	/**
 	 * getRegister
 	 */
 	public int getRegister(int registerPosition) {
@@ -30,6 +36,12 @@ public class MemoryRegister {
 	 */
 	public void addRegister(int value) {
 		registers.add(value);
+	}
+	/**
+	 * setRegister
+	 */
+	public void setRegister(int position, int value) {
+		registers.set(position, value);
 	}
 	/**
 	 * getAccumulator
