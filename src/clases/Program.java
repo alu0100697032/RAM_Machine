@@ -15,13 +15,11 @@ public class Program {
 	private ArrayList<Instruction> instructions;
 	private Hashtable<String, Integer> labelIndexes;
 	private ArrayList<String> labels;
-	private int currentInstruction;
 	
 	public Program(ArrayList<Instruction> instructions, Hashtable<String, Integer> labelIndexs, ArrayList<String> labels) {
 		setInstructions(instructions);
 		setLabelIndexes(labelIndexs);
 		setLabels(labels);
-		setCurrentInstruction(0);
 	}
 	/**
 	 * showProgram
@@ -37,12 +35,6 @@ public class Program {
 			}
 		}
 	}
-	/**
-	 * @return the instructions
-	 */
-	public ArrayList<Instruction> getInstructions() {
-		return instructions;
-	}
 
 	/**
 	 * @param instructions the instructions to set
@@ -54,20 +46,10 @@ public class Program {
 	/**
 	 * @return the actualInstruction
 	 */
-	public int getCurrentInstruction() {
-		int aux = currentInstruction;
-		return aux;
+	public Instruction getCurrentInstruction(int currentInstructionIndex) {
+		return instructions.get(currentInstructionIndex);
 	}
-	
-	public void incrementCurrentInstruction(){
-		currentInstruction++;
-	}
-	/**
-	 * @param actualInstruction the actualInstruction to set
-	 */
-	public void setCurrentInstruction(int currentInstruction) {
-		this.currentInstruction = currentInstruction;
-	}
+
 	/**
 	 * @return the labelIndexs
 	 */
