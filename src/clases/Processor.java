@@ -5,6 +5,8 @@
  */
 package clases;
 
+import java.util.Scanner;
+
 import global.Globals;
 
 public class Processor {
@@ -36,9 +38,44 @@ public class Processor {
 		setInputTape(inputTape);
 		setOutputTape(outputTape);
 		loadProgram(program);
+		this.outputTape.clear();
+		currentInstructionIndex = 0;
 		while(!isStateHalt()) {
 			runInstruction();
 		}
+		setStateHalt(false);
+	}
+	/**
+	 * debugProgram
+	 */
+	public void debugProgram(InputTape inputTape, Program program, OutputTape outputTape) {
+		setInputTape(inputTape);
+		setOutputTape(outputTape);
+		loadProgram(program);
+		this.outputTape.clear();
+		currentInstructionIndex = 0;
+		Scanner next = new Scanner(System.in);
+		System.out.println("- Pulse 'e' para parar la ejecución o cualquier otra tecla para continuar la traza.");
+		while(!isStateHalt()) {
+			showCurrentInstructionInformation();
+			runInstruction();
+			memoryRegister.showMemoryRegister();
+			System.out.println("---------------------");
+			String userOption = next.next();
+			if(userOption.equals("e")) {
+				halt();
+				System.out.println("\nEjecucion interrumpida porel usuario.");
+			}else 
+				continue;
+		}
+		setStateHalt(false);
+	}
+	/**
+	 * showCurrentState
+	 */
+	public void showCurrentInstructionInformation() {
+		System.out.println("--------------------");
+		System.out.println("Line " + (currentInstructionIndex + 1) + ":\t" + program.getCurrentInstruction(currentInstructionIndex).instructionToString());
 	}
 	/**
 	 * runInstruction

@@ -19,7 +19,12 @@ public class OutputTape {
 	public OutputTape() {
 		elements = new ArrayList<>();
 	}
-	
+	/**
+	 * clear
+	 */
+	public void clear() {
+		elements.clear();
+	}
 	/**
 	 * addElement
 	 */

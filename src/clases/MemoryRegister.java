@@ -20,6 +20,17 @@ public class MemoryRegister {
 		registers.add(0);
 	}
 	/**
+	 * showMemoryRegister
+	 */
+	public void showMemoryRegister() {
+		System.out.println("Acumulador: " + getAccumulator());
+		System.out.println("Registros: ");
+		for (int i = 1; i < registers.size(); i++) {
+			System.out.println("R" + i + ": " + registers.get(i));
+		}
+		System.out.println("");
+	}
+	/**
 	 * getSize
 	 */
 	public int getSize() {

@@ -29,7 +29,7 @@ public class InputTape {
 		System.out.println("Cinta de entrada: ");
 		for(int i = 0; i < elements.size(); i++)
 			System.out.print(elements.get(i) + " ");
-		System.out.println();
+		System.out.println("\n");
 	}
 	/**
 	 * getSize

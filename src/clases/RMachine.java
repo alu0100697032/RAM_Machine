@@ -31,44 +31,62 @@ public class RMachine {
 		boolean reRun = true;
 		Scanner userOption = new Scanner(System.in);
 		Scanner readFileNames = new Scanner(System.in);
+		System.out.println("\n\tSIMULADOR RAM \n");
 		while(reRun) {
-			System.out.println("Introduzca el nombre del fichero con la cinta de entrada: ");
-			readInputFile = new ReadInputFile(readFileNames.next());
-			System.out.println("Introduzca el nombre del fichero para volcar la cinta de salida: ");
-			String outputFileName = readFileNames.next();
-			System.out.println("Introduzca el nombre del fichero con el programa: ");
-			readProgramFile = new ReadProgramFile(readFileNames.next());
-			inputTape = new InputTape(readInputFile.getInputTape());
-			outputTape = new OutputTape();
-			program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
-			processor = new Processor(outputFileName);
+			System.out.println("- Pulse 'd' para cargar los ficheros por defecto: inputFile.txt, outputFile.txt y test1.ram");
+			System.out.println("- Pulse cualquier otra tecla para introducir el nombre de los ficheros");
+			String defatult = userOption.next();
+			if(defatult.equals("d")) {
+				readInputFile = new ReadInputFile("src/files/inputFile.txt");
+				String outputFileName = "src/files/outputFile.txt";
+				readProgramFile = new ReadProgramFile("src/tests/test1.ram");
+				inputTape = new InputTape(readInputFile.getInputTape());
+				outputTape = new OutputTape();
+				program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
+				processor = new Processor(outputFileName);
+			}else {
+				System.out.println("Introduzca el nombre del fichero con la cinta de entrada: ");
+				readInputFile = new ReadInputFile(readFileNames.next());
+				System.out.println("Introduzca el nombre del fichero para volcar la cinta de salida: ");
+				String outputFileName = readFileNames.next();
+				System.out.println("Introduzca el nombre del fichero con el programa: ");
+				readProgramFile = new ReadProgramFile(readFileNames.next());
+				inputTape = new InputTape(readInputFile.getInputTape());
+				outputTape = new OutputTape();
+				program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
+				processor = new Processor(outputFileName);
+			}
 			while(run) {
+				System.out.println("");
 				System.out.println("Opciones: ");
+				System.out.println("----------------------------------------");
 				System.out.println("0: Ejecutar otra simulación/Salir.");
 				System.out.println("1: Ver programa y cinta de entrada. ");
 				System.out.println("2: Ejecucion completa.");
-				System.out.println("3: Ver cinta de salida. ");
-				int option = userOption.nextInt();
+				System.out.println("3: Ejecutar traza.");
+				System.out.println("4: Ver cinta de salida. ");
+				System.out.println("----------------------------------------");
+				String option = userOption.next();
 				switch (option) {
-				case 1:
+				case "1":
 					inputTape.showTape();
 					program.showProgram();
 					break;
-				case 2:
+				case "2":
 					processor.runProgram(inputTape, program, outputTape);
 					break;
-				case 3:
+				case "3": 
+					processor.debugProgram(inputTape, program, outputTape);
+					break;
+				case "4":
 					System.out.println(outputTape.getTapeContent());
 					break;
-				case 0:
+				case "0":
 					run = false;
 					break;
 				default:
-					System.out.println("Opcion no valida! Opciones disponibles: ");
-					System.out.println("0: \t Ejecutar otra simulacion.");
-					System.out.println("1: \t ");
-					System.out.println("2: \t ");
-					System.out.println("3: \t ");
+					System.out.println("");
+					System.out.println("Opcion no valida! \n");
 					break;
 				}
 			}
@@ -79,6 +97,7 @@ public class RMachine {
 			else
 				run = true;
 		}
+		readFileNames.close();
 		userOption.close();
 	}
 }
