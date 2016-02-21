@@ -1,0 +1,18 @@
+;calcula n elevado a n, donde n se indica en la cinta de entrada, si n < 0 devuelve 0.        
+        READ 1
+        LOAD 1
+        JGTZ pos
+        WRITE =0
+        HALT
+ pos:   STORE 2 
+        LOAD =1
+        STORE 3
+ while: LOAD 3
+        MULT 1
+        STORE 3
+        LOAD 2
+        SUB =1
+        STORE 2
+        JGTZ while
+        WRITE 3
+        HALT
