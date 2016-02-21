@@ -339,7 +339,6 @@ public class Processor {
 	 */
 	public void halt() {
 		setStateHalt(true);
-		System.out.println("Cinta de salida: " + outputTape.getTapeContent());
 		writeOutputFile = new WriteOutputFile(outputFileName, outputTape);
 	}
 	/**

@@ -39,7 +39,7 @@ public class RMachine {
 			if(defatult.equals("d")) {
 				readInputFile = new ReadInputFile("src/files/inputFile.txt");
 				String outputFileName = "src/files/outputFile.txt";
-				readProgramFile = new ReadProgramFile("src/tests/test1.ram");
+				readProgramFile = new ReadProgramFile("src/tests/nn.ram");
 				inputTape = new InputTape(readInputFile.getInputTape());
 				outputTape = new OutputTape();
 				program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
@@ -79,7 +79,7 @@ public class RMachine {
 					processor.debugProgram(inputTape, program, outputTape);
 					break;
 				case "4":
-					System.out.println(outputTape.getTapeContent());
+					System.out.println("Cinta de salida: " + outputTape.getTapeContent());
 					break;
 				case "0":
 					run = false;

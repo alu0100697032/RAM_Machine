@@ -86,6 +86,24 @@ public class ReadProgramFile {
 		}
 	}
 	/**
+	 * removeInitialFinalWhites
+	 */
+	public String removeInitialFinalWhites(String text) {
+		String textWOWhites = text;
+		while(textWOWhites.startsWith(" ") || textWOWhites.startsWith("\t"))
+			textWOWhites = textWOWhites.substring(1);
+		while(textWOWhites.endsWith(" ") || textWOWhites.startsWith("\t"))
+			textWOWhites = textWOWhites.substring(0, textWOWhites.length()-1);
+		return textWOWhites;
+	}
+	/**
+	 * removeWhites
+	 */
+	public String removeAllWhites(String text) {
+		String textWOWhites = text.replaceAll("\\s", "");
+		return textWOWhites;
+	}
+	/**
 	 * parseInstruction
 	 */
 	public void parseInstruction(String text) {
@@ -157,24 +175,7 @@ public class ReadProgramFile {
 		}
 		return isValid;
 	}
-	/**
-	 * removeInitialFinalWhites
-	 */
-	public String removeInitialFinalWhites(String text) {
-		String textWOWhites = text;
-		while(textWOWhites.startsWith("\b") || textWOWhites.startsWith("\t"))
-			textWOWhites = textWOWhites.substring(1);
-		while(textWOWhites.endsWith("\b") || textWOWhites.startsWith("\t"))
-			textWOWhites = textWOWhites.substring(0, textWOWhites.length()-1);
-		return textWOWhites;
-	}
-	/**
-	 * removeWhites
-	 */
-	public String removeAllWhites(String text) {
-		String textWOWhites = text.replaceAll("\\s", "");
-		return textWOWhites;
-	}
+
 	/**
 	 * @return the program
 	 */
