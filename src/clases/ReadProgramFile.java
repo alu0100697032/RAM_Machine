@@ -139,44 +139,6 @@ public class ReadProgramFile {
 		}
 	}
 	/**
-	 * checkValidInstruction
-	 */
-	public boolean checkValidInstruction(String name) {
-		boolean isValid = false;
-		switch (name) {
-		case "READ":
-		case "read":
-		case "WRITE":
-		case "write":
-		case "LOAD":
-		case "load":
-		case "STORE":
-		case "store":
-		case "ADD":
-		case "add":
-		case "SUB":
-		case "sub":
-		case "MULT":
-		case "mult":
-		case "DIV":
-		case "div":
-		case "JUMP":
-		case "jump":
-		case "JZERO":
-		case "jzero":
-		case "JGTZ":
-		case "jgtz":
-		case "HALT":
-		case "halt":
-			isValid = true;
-			break;
-		default:
-			break;
-		}
-		return isValid;
-	}
-
-	/**
 	 * @return the program
 	 */
 	public ArrayList<Instruction> getProgram() {
