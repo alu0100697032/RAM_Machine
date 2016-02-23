@@ -33,29 +33,16 @@ public class RMachine {
 		Scanner readFileNames = new Scanner(System.in);
 		System.out.println("\n\tSIMULADOR RAM \n");
 		while(reRun) {
-			System.out.println("- Pulse 'd' para cargar los ficheros por defecto: inputFile.txt, outputFile.txt y test1.ram");
-			System.out.println("- Pulse cualquier otra tecla para introducir el nombre de los ficheros");
-			String defatult = userOption.next();
-			if(defatult.equals("d")) {
-				readInputFile = new ReadInputFile("src/files/inputFile.txt");
-				String outputFileName = "src/files/outputFile.txt";
-				readProgramFile = new ReadProgramFile("src/tests/nn.ram");
-				inputTape = new InputTape(readInputFile.getInputTape());
-				outputTape = new OutputTape();
-				program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
-				processor = new Processor(outputFileName);
-			}else {
-				System.out.println("Introduzca el nombre del fichero con la cinta de entrada: ");
-				readInputFile = new ReadInputFile(readFileNames.next());
-				System.out.println("Introduzca el nombre del fichero para volcar la cinta de salida: ");
-				String outputFileName = readFileNames.next();
-				System.out.println("Introduzca el nombre del fichero con el programa: ");
-				readProgramFile = new ReadProgramFile(readFileNames.next());
-				inputTape = new InputTape(readInputFile.getInputTape());
-				outputTape = new OutputTape();
-				program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
-				processor = new Processor(outputFileName);
-			}
+			System.out.println("Introduzca el nombre del fichero con la cinta de entrada: ");
+			readInputFile = new ReadInputFile(readFileNames.next());
+			System.out.println("Introduzca el nombre del fichero para volcar la cinta de salida: ");
+			String outputFileName = readFileNames.next();
+			System.out.println("Introduzca el nombre del fichero con el programa: ");
+			readProgramFile = new ReadProgramFile(readFileNames.next());
+			inputTape = new InputTape(readInputFile.getInputTape());
+			outputTape = new OutputTape();
+			program = new Program(readProgramFile.getProgram(), readProgramFile.getLabelIndexes(), readProgramFile.getLabels());
+			processor = new Processor(outputFileName);
 			while(run) {
 				System.out.println("");
 				System.out.println("Opciones: ");

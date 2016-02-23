@@ -92,7 +92,7 @@ public class ReadProgramFile {
 		String textWOWhites = text;
 		while(textWOWhites.startsWith(" ") || textWOWhites.startsWith("\t"))
 			textWOWhites = textWOWhites.substring(1);
-		while(textWOWhites.endsWith(" ") || textWOWhites.startsWith("\t"))
+		while(textWOWhites.endsWith(" ") || textWOWhites.endsWith("\t"))
 			textWOWhites = textWOWhites.substring(0, textWOWhites.length()-1);
 		return textWOWhites;
 	}
@@ -100,7 +100,7 @@ public class ReadProgramFile {
 	 * removeWhites
 	 */
 	public String removeAllWhites(String text) {
-		String textWOWhites = text.replaceAll("\\s", "");
+		String textWOWhites = text.replaceAll(" ", "");
 		return textWOWhites;
 	}
 	/**

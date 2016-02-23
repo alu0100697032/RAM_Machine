@@ -8,7 +8,7 @@
         LOAD =1
         STORE 3
  while: LOAD 3
-        MULT 1
+        MUL 1
         STORE 3
         LOAD 2
         SUB =1

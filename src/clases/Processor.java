@@ -107,8 +107,8 @@ public class Processor {
 		case "sub":
 			sub((SequentialInstruction)currentInstruction);
 			break;
-		case "MULT":
-		case "mult":
+		case "MUL":
+		case "mul":
 			mult((SequentialInstruction)currentInstruction);
 			break;
 		case "DIV":
@@ -145,11 +145,22 @@ public class Processor {
 		case Globals.IMMEDIATE_ADDRESSING:
 			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + "Invalid addressing: " + currentInstruction.getName() + " =" + currentInstruction.getAddress());
 			break;
+		case Globals.INDIRECT_ADDRESSING:
+			int aux = memoryRegister.getRegister(currentInstruction.getAddress()) + 1 - memoryRegister.getSize();
+			if(checkMemoryRegisterOverflow(memoryRegister.getRegister(currentInstruction.getAddress()))) {
+				for(int i = 0; i < aux; i++)
+					memoryRegister.addRegister(0);
+			}
+			memoryRegister.setRegister(memoryRegister.getRegister(currentInstruction.getAddress()), inputTape.getCurrentPointerElement());
+			inputTape.incrementPointer();
+			break;
 		case Globals.REFERENCE_ADDRESSING:
-			if(currentInstruction.getAddress() + 1 > memoryRegister.getSize())
-				memoryRegister.addRegister(inputTape.getCurrentPointerElement());
-			else
-				memoryRegister.setRegister(currentInstruction.getAddress(), inputTape.getCurrentPointerElement());
+			int aux2 = currentInstruction.getAddress() + 1 - memoryRegister.getSize();
+			if(checkMemoryRegisterOverflow(currentInstruction.getAddress())) {
+				for(int i = 0; i < aux2; i++)
+					memoryRegister.addRegister(0);
+			}
+			memoryRegister.setRegister(currentInstruction.getAddress(), inputTape.getCurrentPointerElement());
 			inputTape.incrementPointer();
 			break;
 		default:
@@ -166,7 +177,7 @@ public class Processor {
 			outputTape.addElement(currentInstruction.getAddress());
 			break;
 		case Globals.INDIRECT_ADDRESSING:
-			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + "Invalid addressing: " + currentInstruction.getName() + " *" + currentInstruction.getAddress());
+			outputTape.addElement(memoryRegister.getRegister(memoryRegister.getRegister(currentInstruction.getAddress())));
 			break;
 		case Globals.REFERENCE_ADDRESSING:
 			outputTape.addElement(memoryRegister.getRegister(currentInstruction.getAddress()));
@@ -185,7 +196,7 @@ public class Processor {
 			memoryRegister.setAccumulator(currentInstruction.getAddress());
 			break;
 		case Globals.INDIRECT_ADDRESSING:
-			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + "Invalid addressing: " + currentInstruction.getName() + " *" + currentInstruction.getAddress());
+			memoryRegister.setAccumulator(memoryRegister.getRegister(memoryRegister.getRegister(currentInstruction.getAddress())));
 			break;
 		case Globals.REFERENCE_ADDRESSING:
 			memoryRegister.setAccumulator(memoryRegister.getRegister(currentInstruction.getAddress()));
@@ -205,11 +216,17 @@ public class Processor {
 			System.out.println("Error. Line: " + (currentInstructionIndex + 1) + " Invalid addressing: "+ currentInstruction.getName() + " =" + currentInstruction.getAddress());
 			break;
 		case Globals.INDIRECT_ADDRESSING:
+			int aux = memoryRegister.getRegister(currentInstruction.getAddress()) + 1 - memoryRegister.getSize();
+			if(checkMemoryRegisterOverflow(memoryRegister.getRegister(currentInstruction.getAddress()))) {
+				for(int i = 0; i < aux; i++)
+					memoryRegister.addRegister(0);
+			}
+			memoryRegister.setRegister(memoryRegister.getRegister(currentInstruction.getAddress()), memoryRegister.getAccumulator());
 			break;
 		case Globals.REFERENCE_ADDRESSING:
-			int aux = currentInstruction.getAddress() + 1 - memoryRegister.getSize();
+			int aux2 = currentInstruction.getAddress() + 1 - memoryRegister.getSize();
 			if(checkMemoryRegisterOverflow(currentInstruction.getAddress())) {
-				for(int i = 0; i < aux; i++)
+				for(int i = 0; i < aux2; i++)
 					memoryRegister.addRegister(0);
 			}
 			memoryRegister.setRegister(currentInstruction.getAddress(), memoryRegister.getAccumulator());
